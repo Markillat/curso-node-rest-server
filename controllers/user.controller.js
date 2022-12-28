@@ -71,12 +71,14 @@ const userDelete = async (req, res = response) => {
     //Elimando fisicamente
     //const usuario = await Usuario.findByIdAndDelete(id);
 
-    const usuario = await Usuario.findByIdAndUpdate(id, { estado: false});
+    const usuarioEliminado = await Usuario.findByIdAndUpdate(id, { estado: false});
+    const usuarioAutenticado = req.usuario_auth
 
     res.json({
         ok: true,
         msg: "delete API - Controller",
-        usuario
+        usuarioEliminado,
+        usuarioAutenticado
     })
 };
 
