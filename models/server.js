@@ -7,8 +7,14 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
-        this.userPath = '/api/usuarios';
-        this.authPath = '/api/auth';
+
+        this.paths = {
+            auth: '/api/auth',
+            user: '/api/usuarios',
+            category: '/api/categorias',
+            productos: '/api/productos',
+            buscar: '/api/buscar'
+        }
 
         // Conectar a base de datos
         this.conectarDB();
@@ -29,15 +35,18 @@ class Server {
         this.app.use(cors());
 
         // Lectura y parseo del body
-        this.app.use( express.json());
+        this.app.use(express.json());
 
         //Directorio publico
         this.app.use(express.static('public'));
     }
 
     routes() {
-        this.app.use(this.userPath, require('../routes/user.routes'));
-        this.app.use(this.authPath, require('../routes/auth.routes'));
+        this.app.use(this.paths.user, require('../routes/user.routes'));
+        this.app.use(this.paths.auth, require('../routes/auth.routes'));
+        this.app.use(this.paths.category, require('../routes/categorias.routes'));
+        this.app.use(this.paths.productos, require('../routes/productos.routes'));
+        this.app.use(this.paths.buscar, require('../routes/buscar.routes'));
     }
 
     listen() {
